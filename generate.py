@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
+import math
 
 r = 0.01+0.04*np.random.rand()  # random radius between 0.01 and 0.05
 print(r)
@@ -15,12 +16,13 @@ fig, ax = plt.subplots() # note we must use plt.subplots, not plt.subplot
 
 rand_angle = 2*np.pi*np.random.rand()/6 #random angle for the window, one sixth because of the hexagonal pattern
 print(rand_angle)
-rand_angle = 0
+#rand_angle = 0
 
 rand_x = r*(1-2*np.random.rand()) #random starting position for the first circle, between -r and r
 rand_y = r*(1-2*np.random.rand())
 i = rand_x
-j = rand_y-r 
+j = rand_y-math.ceil(r/np.cos(rand_angle))
+
 k = 0 #shift for the first row, to create the hexagonal pattern
 
 while j-r < height: # -r to plot cutoff circles
@@ -31,9 +33,9 @@ while j-r < height: # -r to plot cutoff circles
         j += 2*r*np.sin(rand_angle)
     k += 1
     i = rand_x #reset position
-    j = rand_y-r
-    i += -k*r #reset position of the first circle in the next row, shifted by r to create the hexagonal pattern
-    j += k*np.sqrt(3)*r#*np.sin(rand_angle) #hexgrid distance in height
+    j = rand_y-math.ceil(r/np.cos(rand_angle))
+    i += -k*r*np.cos(rand_angle)-k*np.sin(rand_angle)*np.sqrt(3)*r #reset position of the first circle in the next row, shifted by r to create the hexagonal pattern
+    j += k*np.sqrt(3)*r*np.cos(rand_angle)-k*r*np.sin(rand_angle) #hexgrid distance in height
 
 
 
