@@ -7,8 +7,8 @@ import json
 
 for f in range(10): #loop for generating multiple plots and metadata files
     r = 0.01+0.04*np.random.rand()  # random radius between 0.01 and 0.05
-    #r= 0.04
-    #print(r)
+    #r= 0.039816790268998155
+    print(r)
 
     width = 1 #given domain
     height = 0.8
@@ -16,8 +16,11 @@ for f in range(10): #loop for generating multiple plots and metadata files
     p = np.random.rand() #density
     p = 1
 
-    rand_x = r*(1-2*np.random.rand()) #random starting position for the first circle, between -r and r. uniform distribution inside hexagon would be ideal for uniform randomness.
-    rand_y = r*(1-2*np.random.rand())
+    rand_x = r*(-np.random.rand()) #random starting position for the first circle, between -r and r. uniform distribution inside hexagon would be ideal for uniform randomness.
+    rand_y = r*(-np.random.rand())
+    #rand_x = -0.03929876177558801
+    ##rand_y = 0.0309872611401763
+
 
     diag = math.sqrt(width**2 + height**2) #diagonal of the window, to make sure we plot all circles that could be visible in the window, even if they are outside of it
 
@@ -29,7 +32,7 @@ for f in range(10): #loop for generating multiple plots and metadata files
     rand_angle = 2*np.pi*(0.5-np.random.rand())/6 #random angle for the window, one sixth because of reptition of the hexagonal pattern
     #print(rand_angle)
     #rand_angle = 1*np.pi/6
-    #rand_angle = 0
+    #rand_angle = 0.3004638311493413
 
     json_data = {} #list for collecting metadata
 
