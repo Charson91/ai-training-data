@@ -3,9 +3,19 @@ import matplotlib.pyplot as plt
 import scipy as sp
 import math
 import json
+import os
 
+def write_json(target_path, target_file, data): #create and write to subfolder
+    if not os.path.exists(target_path):
+        try:
+            os.makedirs(target_path)
+        except Exception as e:
+            print(e)
+            raise
+    with open(os.path.join(target_path, target_file), 'w') as f:
+        json.dump(data, f)
 
-for f in range(10): #loop for generating multiple plots and metadata files
+for f in range(100): #loop for generating multiple plots and metadata files
 
     r = 0.01+0.04*np.random.rand()  # random radius between 0.01 and 0.05
 
@@ -87,15 +97,15 @@ for f in range(10): #loop for generating multiple plots and metadata files
         mirror_x = rand_x+rows*r*np.cos(rand_angle)+rows*np.sqrt(3)*r*np.sin(rand_angle)
         mirror_y = rand_y+rows*r*np.sin(rand_angle)-rows*np.sqrt(3)*r*np.cos(rand_angle)
 
-    json_data["circles"]=circles
+    json_data["circles"]=circles #add circle data to metadata
 
-    with open(f'metadata_{f}.json', 'w') as file:
-        json.dump(json_data, file, indent=4)
-
-    ax.set_xlim((0, width))
+    ax.set_xlim((0, width)) #set domain for plot
     ax.set_ylim((0, height))
 
-    ax.set_facecolor('black')
+    ax.set_facecolor('black') #black background
 
-    fig.savefig(f'plotcircles_{f}.png')
-    print(f)
+    write_json('dataset', f'metadata_{f}.json', json_data) #save json to subfolder
+
+    fig.savefig(os.path.join('dataset', f'plotcircles_{f}.png')) #save plot to subfolder
+    plt.close()
+    print(f'picture and metadata {f} generated')
